@@ -5,7 +5,7 @@ export async function POST(req: Request) {
     const svix_id = req.headers.get("svix-id");
     const svix_timestamp = req.headers.get("svix-timestamp");
     const secretBytes = new Buffer(
-      process.env.CLERK_SECRET_KEY!.split("_")[1],
+      process.env.WEB_HOOKS!.split("_")[1],
       "base64"
     );
     const signedContent = `${svix_id}.${svix_timestamp}.${req.body}`;
