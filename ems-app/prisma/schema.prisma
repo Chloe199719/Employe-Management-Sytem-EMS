@@ -10,8 +10,171 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  admin
+  user
+  guest
+}
+
 model User {
-  id     String @id @default(uuid())
-  userID String @unique
-  role   String @default("user")
+  id       String    @id @default(uuid())
+  userID   String    @unique
+  role     Role      @default(guest)
+  Employee Employee?
+}
+
+model Employee {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userID], references: [id])
+  userID    String   @unique
+  firstName String
+  lastName  String
+  email     String   @unique
+  phone     String   @unique
+  role      String
+  salary    Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  IBAN      String
+
+  timekeeping timekeeping[]
+  task        task[]
+  Schedule    Schedule[]
+  Leave       Leave[]
+  Vacation    Vacation[]
+  Documents   Documents[]
+  Training    Training[]
+  PaySlip     PaySlip[]
+  PaySlipData PaySlipData[]
+  Request     Request[]
+}
+
+model timekeeping {
+  id         String   @id @default(uuid())
+  employee   Employee @relation(fields: [employeeID], references: [id])
+  employeeID String
+  date       DateTime
+  timeIn     DateTime
+  timeOut    DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model task {
+  id         String   @id @default(uuid())
+  employee   Employee @relation(fields: [employeeID], references: [id])
+  employeeID String
+  date       DateTime
+  task       String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  deadline   DateTime
+}
+
+model Schedule {
+  id         String   @id @default(uuid())
+  employee   Employee @relation(fields: [employeeID], references: [id])
+  employeeID String
+  date       DateTime
+  timeIn     DateTime
+  timeOut    DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Leave {
+  id         String   @id @default(uuid())
+  employee   Employee @relation(fields: [employeeID], references: [id])
+  employeeID String
+  date       DateTime
+  reason     String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  approved   Boolean  @default(false)
+}
+
+model Vacation {
+  id         String   @id @default(uuid())
+  employee   Employee @relation(fields: [employeeID], references: [id])
+  employeeID String
+  startDate  DateTime
+  endDate    DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  approved   Boolean  @default(false)
+}
+
+model Documents {
+  id         String   @id @default(uuid())
+  employee   Employee @relation(fields: [employeeID], references: [id])
+  employeeID String
+  type       Document
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  localFile  String
+}
+
+enum Document {
+  ID
+  Passport
+  Visa
+  Insurance
+  Health
+  Contract
+  Certificate
+  Other
+}
+
+model Training {
+  id         String   @id @default(uuid())
+  employee   Employee @relation(fields: [employeeID], references: [id])
+  employeeID String
+  type       String
+  date       DateTime
+  time       DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  localFile  String
+}
+
+model PaySlip {
+  id         String   @id @default(uuid())
+  employee   Employee @relation(fields: [employeeID], references: [id])
+  employeeID String
+  month      DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  localFile  String
+}
+
+model PaySlipData {
+  id         String   @id @default(uuid())
+  employee   Employee @relation(fields: [employeeID], references: [id])
+  employeeID String
+  hours      Float
+  rate       Float
+  deduction  Float
+  IBAN       String
+  month      DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Request {
+  id         String      @id @default(uuid())
+  employee   Employee    @relation(fields: [employeeID], references: [id])
+  employeeID String
+  type       RequestType
+  message    String
+  date       DateTime
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+}
+
+enum RequestType {
+  Documents
+  Training
+  Raise
+  Department
+  Other
 }
