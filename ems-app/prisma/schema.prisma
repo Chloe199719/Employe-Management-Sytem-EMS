@@ -47,6 +47,22 @@ model Employee {
   PaySlip     PaySlip[]
   PaySlipData PaySlipData[]
   Request     Request[]
+  Teams       Teams?        @relation(fields: [teamsId], references: [id])
+  teamsId     String?
+
+  sent        Message[]     @relation("sender")
+  from        Message[]     @relation("receiver")
+  TeamMessage TeamMessage[] @relation("sender")
+}
+
+model Teams {
+  id          String        @id @default(uuid())
+  name        String
+  tasks       String
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  members     Employee[]
+  TeamMessage TeamMessage[] @relation("receiver")
 }
 
 model timekeeping {
@@ -177,4 +193,26 @@ enum RequestType {
   Raise
   Department
   Other
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  from      Employee @relation("sender", fields: [fromID], references: [id])
+  fromID    String
+  to        Employee @relation("receiver", fields: [toID], references: [id])
+  toID      String
+  message   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TeamMessage {
+  id        String   @id @default(uuid())
+  from      Employee @relation("sender", fields: [fromID], references: [id])
+  fromID    String
+  to        Teams    @relation("receiver", fields: [toID], references: [id])
+  toID      String
+  message   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
