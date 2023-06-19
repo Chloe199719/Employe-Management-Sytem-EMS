@@ -26,7 +26,7 @@ export async function POST(req: Request) {
     // msg = wh.verify(payload, headers);
 
     // // // Do something with the message...
-
+    console.log(test);
     return new Response(
       JSON.stringify({ message: test, req: svix_id, svix_timestamp })
     );
