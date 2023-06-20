@@ -20,17 +20,17 @@ module.exports = {
     themes: [
       {
         light: {
-          primary: "#111827",
-
-          secondary: "#38bdf8",
-
           ".bg-tertiary": {
             backgroundColor: "#9333ea",
           },
 
-          accent: "#818cf8",
+          primary: "#111827",
 
-          neutral: "#a5f3fc",
+          secondary: "#fb923c",
+
+          accent: "#4b5563",
+
+          neutral: "#fef3c7",
 
           "base-100": "#f3f4f6",
 
@@ -38,9 +38,9 @@ module.exports = {
 
           success: "#84cc16",
 
-          warning: "#F3B94F",
+          warning: "#facc15",
 
-          error: "#be185d",
+          error: "#b91c1c",
         },
         dark: {
           primary: "#f3f4f6",
