@@ -1,5 +1,11 @@
+import { UserButton } from "@clerk/nextjs";
+
 type Props = {};
 function page({}: Props) {
-  return <div>page</div>;
+  return (
+    <div>
+      <UserButton />
+    </div>
+  );
 }
 export default page;

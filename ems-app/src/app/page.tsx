@@ -1,13 +1,26 @@
 import Image from "next/image";
 import { UserButton, auth, currentUser } from "@clerk/nextjs";
-import ToggleThemeBtn from "./ToggleThemeBtn";
+import ToggleThemeBtn from "../components/ToggleThemeBtn";
+import Header from "@/components/hero/Header";
+import { SignIn } from "@clerk/nextjs";
+import DashboardBox from "@/components/hero/DashboardBox";
 export default async function Home() {
   const user = await currentUser();
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24 bg-base-100 text-primary">
-      <ToggleThemeBtn />
-      <UserButton />
-    </main>
+    <div className="min-h-screen px-10 md:px-24">
+      <Header />
+      <main className="flex  flex-col items-center justify-between py-10 md:py-24 bg-base-100 text-primary">
+        <div className="flex flex-col items-center max-w-7xl mx-auto w-full gap-10">
+          <p className="text-center">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Animi
+            recusandae asperiores cum maiores deserunt magnam ullam?
+            Exercitationem veniam, repudiandae ut fugiat dolores perferendis ex
+            minima, quis, expedita omnis fuga corporis!
+          </p>
+          {user ? <DashboardBox user={user} /> : <SignIn />}
+        </div>
+      </main>
+    </div>
   );
 }
