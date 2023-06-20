@@ -15,10 +15,10 @@ function DashboardBox({ user }: Props) {
           <UserButton />
         </div>
       </div>
-      <div className="flex items-center justify-center ">
+      <div className="flex items-center justify-center px-3 ">
         <Link
-          className="w-full text-center mx-3 py-3 bg-info rounded-lg hover:bg-info/80 uppercase"
-          href="/app/dashboard"
+          className="w-full text-center btn btn-info border-none  mx-3 py-3 text-primary hover:bg-secondary z-20"
+          href="/dashboard"
         >
           Go to Dashboard
         </Link>
@@ -26,7 +26,7 @@ function DashboardBox({ user }: Props) {
       <p className="text-center ">Not you?</p>
       <div className="flex justify-center px-3">
         <SignOutButton>
-          <button className="btn  btn-info w-full text-primary hover:bg-red-400">
+          <button className="btn  btn-info w-full border-none text-primary hover:bg-red-400 z-20">
             Sign Out
           </button>
         </SignOutButton>
