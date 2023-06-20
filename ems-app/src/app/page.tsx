@@ -9,17 +9,30 @@ export default async function Home() {
   const user = await currentUser();
 
   return (
-    <div className="min-h-screen px-10 md:px-24">
+    <div className="min-h-screen flex flex-col px-10 md:px-24 ">
       <Header />
-      <main className="flex  flex-col items-center justify-between py-10 md:py-24 bg-base-100 text-primary">
-        <div className="flex flex-col items-center max-w-7xl mx-auto w-full gap-10">
-          <p className="text-center ">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Animi
-            recusandae asperiores cum maiores deserunt magnam ullam?
-            Exercitationem veniam, repudiandae ut fugiat dolores perferendis ex
-            minima, quis, expedita omnis fuga corporis!
-          </p>
-          {user ? <DashboardBox user={user} /> : <SignInBox />}
+      <main className="flex-grow flex flex-col items-center md:flex-row justify-center py-10 md:py-24 bg-base-100 text-primary h-full">
+        <div className="grid md:grid-cols-2 justify-center  max-w-6xl join flex-grow">
+          <div className="flex flex-col justify-center item   w-full   gap-10 p-6 bg-accent md:join-item ">
+            <div className="flex items-center justify-center gap-3">
+              <Image src={`/logo.png`} alt="logo" width={50} height={50} />
+              <h1 className="text-3xl text-center text-primary">Brand Name</h1>
+            </div>{" "}
+            <p className="mx-2 md:text-lg antialiased tracking-wider">
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Animi
+              recusandae asperiores cum maiores deserunt magnam ullam?
+              Exercitationem veniam, repudiandae ut fugiat dolores perferendis
+              ex minima, quis, expedita omnis fuga corporis!
+            </p>
+            {user ? <DashboardBox user={user} /> : <SignInBox />}
+          </div>{" "}
+          <Image
+            className="hidden md:block flex-auto join-item"
+            src={"/hero1.jpg"}
+            width={700}
+            height={1000}
+            alt="hero"
+          />
         </div>
       </main>
     </div>
