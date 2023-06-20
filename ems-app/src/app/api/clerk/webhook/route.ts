@@ -3,7 +3,7 @@ import prismaClient from "@/lib/prisma/prisma";
 export async function POST(req: Request) {
   try {
     const token = req.headers.get("Bearer");
-    if (token === process.env.CLERK_SECRET_KEY) {
+    if (token !== process.env.CLERK_SECRET_KEY) {
       throw new Error("Invalid token", { cause: "Invalid token" });
     }
     const payload = (await req.json()) as WebhookEvent;
