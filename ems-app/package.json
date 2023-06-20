@@ -10,6 +10,7 @@
     "cypress": "cypress open"
   },
   "dependencies": {
+    "@clerk/clerk-sdk-node": "^4.10.11",
     "@clerk/nextjs": "^4.21.3",
     "@prisma/client": "4.15.0",
     "@tanstack/react-query": "^4.29.14",
