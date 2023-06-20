@@ -11,7 +11,7 @@ export default async function Home() {
   return (
     <>
       <Header />
-      <main className="flex-grow flex flex-col items-center md:flex-row justify-center py-10 px-10 md:px-24 md:py-24 bg-base-100 text-primary h-full">
+      <main className="flex-grow flex flex-col items-center md:flex-row justify-center py-10 px-2 md:py-24 bg-base-100 text-primary h-full">
         <div className="grid md:grid-cols-2 justify-center  max-w-6xl join flex-grow">
           <div className="flex flex-col justify-center item   w-full   gap-10 p-6 bg-accent md:join-item ">
             <div className="flex items-center justify-center gap-3">
