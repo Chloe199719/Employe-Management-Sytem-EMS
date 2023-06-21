@@ -1,3 +1,4 @@
+import { Employee } from "@prisma/client";
 import axios from "axios";
 
 async function fetchSearchResult(searchTerm?: string) {

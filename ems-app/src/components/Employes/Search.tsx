@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useDebounce from "../hooks/useDebounce";
 import { useQuery } from "@tanstack/react-query";
 import fetchSearchResult from "@/lib/frontend/GetSearchEmploye";
@@ -12,9 +12,12 @@ function Search({}: Props) {
   const [search, setSearch] = useState("");
   const debouncedSearchTerm = useDebounce(search, 500);
   const employeeSearch = useQuery({
-    queryKey: ["employee", debouncedSearchTerm],
+    queryKey: ["employee"],
     queryFn: async () => fetchSearchResult(debouncedSearchTerm),
   });
+  useEffect(() => {
+    employeeSearch.refetch();
+  }, [debouncedSearchTerm]);
   return (
     <div className="flex px-4 py-7  md:p-10 gap-5 items-center bg-base-100 rounded-lg flex-wrap">
       <h2 className="text-xl hidden md:block ">Employee`s</h2>
