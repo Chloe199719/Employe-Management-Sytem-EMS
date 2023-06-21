@@ -1,8 +1,10 @@
-import Guest from "@/components/hero/Guest";
 import prismaClient from "@/lib/prisma/prisma";
 import { auth } from "@clerk/nextjs";
+import { ReactNode } from "react";
 import { redirect } from "next/navigation";
-type Props = {};
+type Props = {
+  children: ReactNode;
+};
 
 async function getRole(userId: string) {
   try {
@@ -20,19 +22,12 @@ async function getRole(userId: string) {
   }
 }
 
-async function page({}: Props) {
+async function layout({ children }: Props) {
   const { userId } = auth();
   const role = await getRole(userId!);
-  if (role === "admin") {
-    redirect("/dashboard/admin");
-  }
-  if (role === "user") {
-    redirect("/dashboard/user");
-  }
-  if (role === "guest" || role === null) {
+  if (role !== "admin") {
     redirect("/");
   }
-
-  return <div>page</div>;
+  return <>{children}</>;
 }
-export default page;
+export default layout;
