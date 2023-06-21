@@ -1,24 +1,9 @@
 import Guest from "@/components/hero/Guest";
+import getRole from "@/lib/frontend/getRole";
 import prismaClient from "@/lib/prisma/prisma";
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 type Props = {};
-
-async function getRole(userId: string) {
-  try {
-    const res = await prismaClient.user.findUniqueOrThrow({
-      where: {
-        userID: userId,
-      },
-      select: {
-        role: true,
-      },
-    });
-    return res.role;
-  } catch (error) {
-    return null;
-  }
-}
 
 async function page({}: Props) {
   const { userId } = auth();

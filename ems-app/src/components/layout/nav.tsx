@@ -1,9 +1,13 @@
 import Image from "next/image";
 import ThemeSwitch from "./ThemeSwitch";
+import { auth } from "@clerk/nextjs";
+import getRole from "@/lib/frontend/getRole";
 const items = [1, 2, 3];
 
 type Props = {};
-function Nav({}: Props) {
+async function Nav({}: Props) {
+  const { userId } = auth();
+  const role = await getRole(userId!);
   return (
     <nav className="flex flex-col">
       <div className="bg-base-200 w-full h-[130px] flex justify-center items-center">
