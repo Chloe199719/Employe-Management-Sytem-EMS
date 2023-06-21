@@ -2,6 +2,7 @@ import Image from "next/image";
 import ThemeSwitch from "./ThemeSwitch";
 import { auth } from "@clerk/nextjs";
 import getRole from "@/lib/frontend/getRole";
+import AdminList from "./AdminList";
 const items = [1, 2, 3];
 
 type Props = {};
@@ -23,6 +24,8 @@ async function Nav({}: Props) {
         <li>
           <ThemeSwitch />
         </li>
+        <hr className="my-1 border-primary" />
+        {role === "admin" && <AdminList />}
         {items.map((item) => {
           return (
             <li>
