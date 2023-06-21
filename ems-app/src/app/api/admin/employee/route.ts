@@ -31,7 +31,7 @@ export async function GET(req: Request) {
       .parse(searchParams.get("term"));
     if (!term) {
       const data = await prismaClient.employee.findMany({});
-      console.log(data);
+
       return new Response(JSON.stringify(data), { status: 200 });
     } else {
       const data = await prismaClient.employee.findMany({

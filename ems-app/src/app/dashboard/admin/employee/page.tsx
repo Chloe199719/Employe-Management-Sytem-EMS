@@ -1,10 +1,12 @@
 import Search from "@/components/Employes/Search";
+import Table from "@/components/Employes/Table";
 
 type Props = {};
 async function page({}: Props) {
   return (
-    <div className="flex flex-col text-primary">
+    <div className="flex flex-col text-primary bg-base-200 flex-1 p-4 gap-4">
       <Search />
+      <Table />
       <dialog id="addEmployee" className="modal modal-bottom sm:modal-middle">
         <form method="dialog" className="modal-box bg-base-300 text-primary">
           <h3 className="font-bold text-lg">Hello!</h3>

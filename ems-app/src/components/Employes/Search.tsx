@@ -4,6 +4,7 @@ import { useState } from "react";
 import useDebounce from "../hooks/useDebounce";
 import { useQuery } from "@tanstack/react-query";
 import fetchSearchResult from "@/lib/frontend/GetSearchEmploye";
+import { AiOutlineUsergroupAdd } from "react-icons/ai";
 
 type Props = {};
 //
@@ -15,16 +16,16 @@ function Search({}: Props) {
     queryFn: async () => fetchSearchResult(debouncedSearchTerm),
   });
   return (
-    <div className="flex p-10 gap-5 items-center">
-      <h2 className="text-xl md:text-3xl ">Employee`s</h2>
+    <div className="flex px-4 py-7  md:p-10 gap-5 items-center bg-base-100 rounded-lg flex-wrap">
+      <h2 className="text-xl hidden md:block ">Employee`s</h2>
       <div className="join flex-1">
         <input
           onChange={(e) => setSearch(e.target.value)}
           value={search}
-          className="form-input pl-4 join-item flex-1 text-secondary  rounded-l-xl focus:ring-0 focus:border-secondary border-r-0"
-          placeholder="Search"
+          className="form-input pl-4 md:join-item flex-1 text-secondary rounded-xl md:rounded-l-xl focus:ring-0 focus:border-secondary md:border-r-0 w-9"
+          placeholder="Search Employee`s"
         />
-        <button className="btn join-item rounded-r-xl">
+        <button className="btn join-item rounded-r-xl hidden md:block">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
@@ -43,7 +44,10 @@ function Search({}: Props) {
       </div>
       {/*@ts-expect-error  */}
       <button onClick={() => window.addEmployee.showModal()} className="btn">
-        Add Employee
+        <span className="hidden md:block"> Add Employee</span>{" "}
+        <span className="">
+          <AiOutlineUsergroupAdd className="w-4 h-4" />
+        </span>
       </button>
     </div>
   );

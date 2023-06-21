@@ -10,7 +10,7 @@ async function Nav({}: Props) {
   const { userId } = auth();
   const role = await getRole(userId!);
   return (
-    <nav className="flex flex-col">
+    <nav className="flex flex-col border-r border-primary">
       <div className="bg-base-200 w-full h-[130px] flex justify-center items-center">
         <Image
           className="w-[50px] h-[50px] md:h-[100px] md:w-[100px]"
