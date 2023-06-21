@@ -17,10 +17,14 @@ enum Role {
 }
 
 model User {
-  id       String    @id @default(uuid())
-  userID   String    @unique
-  role     Role      @default(guest)
-  Employee Employee?
+  id        String    @id @default(uuid())
+  userID    String    @unique
+  firstName String?
+  lastName  String?
+  image_url String?
+  email     String?   @unique
+  role      Role      @default(guest)
+  Employee  Employee?
 }
 
 model Employee {
@@ -32,11 +36,16 @@ model Employee {
   email       String        @unique
   phone       String        @unique
   role        String
+  position    String?
   salary      Float
+  onBoarding  DateTime?
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   IBAN        String
   photo       String?
+  taxid       String?
+  address     String?
+  insurance   String?
   timekeeping timekeeping[]
   task        task[]
   Schedule    Schedule[]
