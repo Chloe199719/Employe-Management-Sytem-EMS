@@ -24,19 +24,19 @@ model User {
 }
 
 model Employee {
-  id        String   @id @default(uuid())
-  user      User     @relation(fields: [userID], references: [id])
-  userID    String   @unique
-  firstName String
-  lastName  String
-  email     String   @unique
-  phone     String   @unique
-  role      String
-  salary    Float
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  IBAN      String
-
+  id          String        @id @default(uuid())
+  user        User          @relation(fields: [userID], references: [id])
+  userID      String        @unique
+  firstName   String
+  lastName    String
+  email       String        @unique
+  phone       String        @unique
+  role        String
+  salary      Float
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  IBAN        String
+  photo       String?
   timekeeping timekeeping[]
   task        task[]
   Schedule    Schedule[]
