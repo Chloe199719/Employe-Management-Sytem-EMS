@@ -18,6 +18,8 @@ type Props = {};
 //
 function Search({}: Props) {
   const [search, setSearch] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  console.log(showModal);
   const debouncedSearchTerm = useDebounce(search, 500);
   const employeeSearch = useQuery({
     queryKey: ["employee"],
@@ -54,20 +56,19 @@ function Search({}: Props) {
         </button>
       </div>
 
-      <Sheet>
-        <SheetTrigger>
+      <Sheet
+        onOpenChange={(modal) => {
+          setShowModal(modal);
+        }}
+      >
+        <SheetTrigger className="btn">
           {" "}
-          <button
-            /*  onClick={() => window.addEmployee.showModal()} */
-            className="btn"
-          >
-            <span className="hidden md:block"> Add Employee</span>{" "}
-            <span className="">
-              <AiOutlineUsergroupAdd className="w-4 h-4" />
-            </span>
-          </button>
+          <span className="hidden md:block"> Add Employee</span>{" "}
+          <span className="">
+            <AiOutlineUsergroupAdd className="w-4 h-4" />
+          </span>
         </SheetTrigger>
-        <AddEmployerModal />
+        <AddEmployerModal trigger={showModal} />
       </Sheet>
     </div>
   );
