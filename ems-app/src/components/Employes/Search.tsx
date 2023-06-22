@@ -5,7 +5,15 @@ import useDebounce from "../hooks/useDebounce";
 import { useQuery } from "@tanstack/react-query";
 import fetchSearchResult from "@/lib/frontend/GetSearchEmploye";
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
-
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import AddEmployerModal from "./AddEmployerModal";
 type Props = {};
 //
 function Search({}: Props) {
@@ -45,13 +53,22 @@ function Search({}: Props) {
           </svg>
         </button>
       </div>
-      {/*@ts-expect-error  */}
-      <button onClick={() => window.addEmployee.showModal()} className="btn">
-        <span className="hidden md:block"> Add Employee</span>{" "}
-        <span className="">
-          <AiOutlineUsergroupAdd className="w-4 h-4" />
-        </span>
-      </button>
+
+      <Sheet>
+        <SheetTrigger>
+          {" "}
+          <button
+            /*  onClick={() => window.addEmployee.showModal()} */
+            className="btn"
+          >
+            <span className="hidden md:block"> Add Employee</span>{" "}
+            <span className="">
+              <AiOutlineUsergroupAdd className="w-4 h-4" />
+            </span>
+          </button>
+        </SheetTrigger>
+        <AddEmployerModal />
+      </Sheet>
     </div>
   );
 }
