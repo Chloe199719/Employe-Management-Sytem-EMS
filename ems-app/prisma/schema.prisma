@@ -16,6 +16,12 @@ enum Role {
   guest
 }
 
+enum CompanyRole {
+  Admin
+  Employee
+  Manager
+}
+
 model User {
   id        String    @id @default(uuid())
   userID    String    @unique
@@ -35,7 +41,7 @@ model Employee {
   lastName    String
   email       String        @unique
   phone       String        @unique
-  role        String
+  role        CompanyRole   @default(Employee)
   position    String?
   salary      Float
   onBoarding  DateTime?

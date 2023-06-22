@@ -60,6 +60,7 @@ function Search({}: Props) {
         onOpenChange={(modal) => {
           setShowModal(modal);
         }}
+        open={showModal}
       >
         <SheetTrigger className="btn">
           {" "}
@@ -68,7 +69,7 @@ function Search({}: Props) {
             <AiOutlineUsergroupAdd className="w-4 h-4" />
           </span>
         </SheetTrigger>
-        <AddEmployerModal trigger={showModal} />
+        <AddEmployerModal setModal={setShowModal} trigger={showModal} />
       </Sheet>
     </div>
   );
