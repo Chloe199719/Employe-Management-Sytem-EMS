@@ -1,17 +1,16 @@
 import Image from "next/image";
 import ThemeSwitch from "./ThemeSwitch";
-import { auth } from "@clerk/nextjs";
+import { UserButton, auth, currentUser } from "@clerk/nextjs";
 import getRole from "@/lib/frontend/getRole";
 import AdminList from "./AdminList";
 const items = [1, 2, 3];
 
 type Props = {};
 async function Nav({}: Props) {
-  const { userId } = auth();
-  const role = await getRole(userId!);
+  const user = await currentUser();
   return (
-    <nav className="flex flex-col border-r border-primary">
-      <div className="bg-base-200 w-full h-[130px] flex justify-center items-center">
+    <nav className="flex flex-col bg-base-200 pr-4">
+      <div className=" bg-base-100 w-full h-[130px] flex justify-center items-center">
         <Image
           className="w-[50px] h-[50px] md:h-[100px] md:w-[100px]"
           src={`/logo.png`}
@@ -20,14 +19,14 @@ async function Nav({}: Props) {
           height={100}
         />
       </div>
-      <ul className="menu bg-base-200 w-20 md:w-56  flex-1 justify-between">
+      <ul className="bg-base-100 menu w-20 md:w-56  flex-1 justify-between">
         <div>
           {" "}
           <li>
             <ThemeSwitch />
           </li>
           <hr className="my-1 border-primary" />
-          {role === "admin" && <AdminList />}
+          <AdminList />
           {items.map((item) => {
             return (
               <li key={item}>
@@ -77,21 +76,10 @@ async function Nav({}: Props) {
         <div>
           <li className="">
             <a className="flex justify-center md:justify-start">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                />
-              </svg>
-              <span className="hidden md:block"> Item 3</span>
+              <UserButton />
+              <span className="hidden md:block font-bold text-lg overflow-hidden">
+                {user?.firstName} {user?.lastName}
+              </span>
             </a>
           </li>
         </div>

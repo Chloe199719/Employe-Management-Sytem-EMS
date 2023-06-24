@@ -19,7 +19,7 @@ type Props = {};
 function Search({}: Props) {
   const [search, setSearch] = useState("");
   const [showModal, setShowModal] = useState(false);
-  console.log(showModal);
+  // console.log(showModal);
   const debouncedSearchTerm = useDebounce(search, 500);
   const employeeSearch = useQuery({
     queryKey: ["employee"],
@@ -29,7 +29,7 @@ function Search({}: Props) {
     employeeSearch.refetch();
   }, [debouncedSearchTerm]);
   return (
-    <div className="flex px-4 py-7  md:p-10 gap-5 items-center bg-base-100 rounded-lg flex-wrap">
+    <div className="flex px-4 py-7  md:p-10 gap-5 items-center bg-base-100 rounded-lg flex-wrap shadow-xl shadow-base-300">
       <h2 className="text-xl hidden md:block ">Employee`s</h2>
       <div className="join flex-1">
         <input

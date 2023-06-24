@@ -23,9 +23,9 @@ function Table({}: Props) {
       email: "123@123.com",
     },
   ];
-  console.log(employee.data);
+
   return (
-    <div className=" bg-base-100 rounded-xl">
+    <div className=" bg-base-100 rounded-xl shadow-xl shadow-base-30">
       <DataTable columns={columns} data={employee.data as Employee[]} />
       {/* <table className="table">
         <thead>

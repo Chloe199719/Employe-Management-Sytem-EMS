@@ -3,7 +3,7 @@
 import { Employee } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -24,6 +24,32 @@ import {
 // };
 
 export const columns: ColumnDef<Employee>[] = [
+  {
+    accessorKey: "photo",
+    header: "Photo",
+    cell: ({ row }) => {
+      if (!row.original.photo) {
+        return (
+          <Image
+            src={"/defaultProfile.png"}
+            alt="Employee photo"
+            width={60}
+            height={60}
+            className="rounded-full"
+          />
+        );
+      }
+      return (
+        <Image
+          src={row.original.photo!}
+          alt="Employee photo"
+          width={60}
+          height={60}
+          className="rounded-full"
+        />
+      );
+    },
+  },
   {
     accessorKey: "firstName",
     header: ({ column }) => {
@@ -49,21 +75,21 @@ export const columns: ColumnDef<Employee>[] = [
     header: "Email",
   },
   {
-    accessorKey: "role",
+    accessorKey: "position",
     header: "Title",
   },
-  {
-    accessorKey: "salary",
-    header: () => <div className="text-right">Salary</div>,
-    cell: ({ row }) => {
-      const salary = parseFloat(row.getValue("salary"));
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(salary);
-      return <div className="text-right font-medium">{formatted}</div>;
-    },
-  },
+  // {
+  //   accessorKey: "salary",
+  //   header: () => <div className="text-right">Salary</div>,
+  //   cell: ({ row }) => {
+  //     const salary = parseFloat(row.getValue("salary"));
+  //     const formatted = new Intl.NumberFormat("en-US", {
+  //       style: "currency",
+  //       currency: "USD",
+  //     }).format(salary);
+  //     return <div className="text-right font-medium">{formatted}</div>;
+  //   },
+  // },
   {
     id: "actions",
     cell: ({ row }) => {
