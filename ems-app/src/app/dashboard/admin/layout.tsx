@@ -1,6 +1,6 @@
 import prismaClient from "@/lib/prisma/prisma";
 import { auth } from "@clerk/nextjs";
-import { ReactNode } from "react";
+import { ReactNode, Suspense } from "react";
 import { redirect } from "next/navigation";
 import getRole from "@/lib/frontend/getRole";
 import Nav from "@/components/layout/nav";
@@ -13,6 +13,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { FiMail } from "react-icons/fi";
+import Loading from "./loading";
 type Props = {
   children: ReactNode;
 };
@@ -29,7 +30,7 @@ async function layout({ children }: Props) {
       <main className="flex-1 flex flex-col">
         {/* <HeaderDashboard /> */}
         <div className="relative flex-1 flex">
-          {children}
+          <Suspense fallback={<Loading />}>{children}</Suspense>
           <Sheet>
             <SheetTrigger className=" absolute  bottom-4 right-4 z-20">
               <div className="p-4 bg-base-100/90  rounded-full hover:bg-base-300/90 active:translate-x-1">
