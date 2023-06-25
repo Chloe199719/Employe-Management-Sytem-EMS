@@ -14,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { TeamWith } from "./TableTeams";
+import Link from "next/link";
 
 export const columns: ColumnDef<TeamWith>[] = [
   {
@@ -49,7 +50,7 @@ export const columns: ColumnDef<TeamWith>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original;
+      const teams = row.original;
 
       return (
         <div className="flex justify-end">
@@ -62,10 +63,10 @@ export const columns: ColumnDef<TeamWith>[] = [
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className=" bg-base-100">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(payment.id)}
-              >
-                Copy payment ID
+              <DropdownMenuItem>
+                <Link href={`/dashboard/admin/teams/${teams.id}`}>
+                  Go to Team page
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>View customer</DropdownMenuItem>
