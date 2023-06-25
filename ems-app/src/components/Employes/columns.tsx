@@ -90,18 +90,7 @@ export const columns: ColumnDef<EmployeeWith>[] = [
       return <div className="">{formatted}</div>;
     },
   },
-  // {
-  //   accessorKey: "salary",
-  //   header: () => <div className="text-right">Salary</div>,
-  //   cell: ({ row }) => {
-  //     const salary = parseFloat(row.getValue("salary"));
-  //     const formatted = new Intl.NumberFormat("en-US", {
-  //       style: "currency",
-  //       currency: "USD",
-  //     }).format(salary);
-  //     return <div className="text-right font-medium">{formatted}</div>;
-  //   },
-  // },
+
   {
     id: "actions",
     cell: ({ row }) => {
