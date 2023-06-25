@@ -13,6 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { EmployeeWith } from "./Table";
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 // export type Employee = {
@@ -23,7 +24,7 @@ import {
 //   email: string;
 // };
 
-export const columns: ColumnDef<Employee>[] = [
+export const columns: ColumnDef<EmployeeWith>[] = [
   {
     accessorKey: "photo",
     header: "Photo",
@@ -77,6 +78,17 @@ export const columns: ColumnDef<Employee>[] = [
   {
     accessorKey: "position",
     header: "Title",
+  },
+  {
+    accessorKey: "name",
+    header: "Team",
+    cell: ({ row }) => {
+      const formatted = `${
+        row.original.Teams?.name ? row.original.Teams?.name : "No team"
+      }`;
+
+      return <div className="">{formatted}</div>;
+    },
   },
   // {
   //   accessorKey: "salary",

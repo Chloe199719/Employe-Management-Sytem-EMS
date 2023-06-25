@@ -30,7 +30,11 @@ export async function GET(req: Request) {
       .nullable()
       .parse(searchParams.get("term"));
     if (!term) {
-      const data = await prismaClient.employee.findMany({});
+      const data = await prismaClient.employee.findMany({
+        include: {
+          Teams: true,
+        },
+      });
 
       return new Response(JSON.stringify(data), { status: 200 });
     } else {
@@ -63,6 +67,9 @@ export async function GET(req: Request) {
               },
             },
           ],
+        },
+        include: {
+          Teams: true,
         },
       });
       return new Response(JSON.stringify(data), { status: 200 });

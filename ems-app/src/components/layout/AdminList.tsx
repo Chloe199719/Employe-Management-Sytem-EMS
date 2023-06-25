@@ -25,7 +25,7 @@ function AdminList({}: Props) {
           <span className="hidden md:block">Employee</span>
         </Link>
       </li>
-      <li className="tooltip tooltip-primary w-full" data-tip={`Employee`}>
+      <li className="tooltip tooltip-primary w-full" data-tip={`Teams`}>
         <Link
           href="/dashboard/admin/teams"
           className="flex justify-center md:justify-start w-full"

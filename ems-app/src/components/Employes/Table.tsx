@@ -4,8 +4,14 @@ import { useQuery } from "@tanstack/react-query";
 import { DataTable } from "./DataTable";
 import { columns } from "./columns";
 import fetchSearchResult from "@/lib/frontend/GetSearchEmploye";
-import { Employee } from "@prisma/client";
+import { Employee, Prisma } from "@prisma/client";
 
+const employeeWith = Prisma.validator<Prisma.EmployeeArgs>()({
+  include: {
+    Teams: true,
+  },
+});
+export type EmployeeWith = Prisma.EmployeeGetPayload<typeof employeeWith>;
 type Props = {};
 function Table({}: Props) {
   const employee = useQuery({
@@ -20,7 +26,7 @@ function Table({}: Props) {
 
   return (
     <div className=" bg-base-100 rounded-xl shadow-xl shadow-base-30">
-      <DataTable columns={columns} data={employee.data as Employee[]} />
+      <DataTable columns={columns} data={employee.data as EmployeeWith[]} />
     </div>
   );
 }
