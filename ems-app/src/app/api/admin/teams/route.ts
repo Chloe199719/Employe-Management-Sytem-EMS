@@ -30,12 +30,27 @@ export async function GET(req: Request) {
       .nullable()
       .parse(searchParams.get("term"));
     if (!term) {
-      const data = await prismaClient.teams.findMany({});
+      const data = await prismaClient.teams.findMany({
+        include: {
+          TeamTask: {
+            orderBy: {
+              deadline: "asc",
+            },
+          },
+        },
+      });
       return new Response(JSON.stringify(data), { status: 200 });
     } else {
       const data = await prismaClient.teams.findMany({
         where: {
           name: term as string,
+        },
+        include: {
+          TeamTask: {
+            orderBy: {
+              deadline: "asc",
+            },
+          },
         },
       });
       return new Response(JSON.stringify(data), { status: 200 });

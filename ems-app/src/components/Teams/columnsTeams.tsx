@@ -13,17 +13,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-// export type Employee = {
-//   id: string;
-//   firstName: string;
-//   salary: number;
-//   role: string;
-//   email: string;
-// };
+import { TeamWith } from "./TableTeams";
 
-export const columns: ColumnDef<Teams>[] = [
+export const columns: ColumnDef<TeamWith>[] = [
   {
     accessorKey: "name",
     header: "TeamName",
@@ -33,7 +25,22 @@ export const columns: ColumnDef<Teams>[] = [
     header: "Task",
     cell: ({ row }) => {
       const formatted = `${
-        row.original.tasks ? row.original.tasks : "No Tasks"
+        row.original.TeamTask.length !== 0
+          ? row.original.TeamTask[0].task
+          : "No Tasks"
+      }`;
+
+      return <div className="">{formatted}</div>;
+    },
+  },
+  {
+    accessorKey: "TeamTask",
+    header: "Deadline",
+    cell: ({ row }) => {
+      const formatted = `${
+        row.original.TeamTask.length !== 0
+          ? new Date(row.original.TeamTask[0].deadline).toLocaleDateString()
+          : "No Tasks"
       }`;
 
       return <div className="">{formatted}</div>;
