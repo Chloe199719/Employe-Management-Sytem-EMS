@@ -8,8 +8,8 @@ import { Toaster } from "@/components/layout/Toaster";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "EMS",
-  description: "Employee Management System",
+  title: `${process.env.TITLE}`,
+  description: "Employee Management System for ACME Industries Ltd",
 };
 
 export default function RootLayout({

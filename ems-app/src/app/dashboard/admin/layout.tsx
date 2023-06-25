@@ -27,7 +27,6 @@ async function layout({ children }: Props) {
     <div className="flex-1 flex  bg-base-200">
       <Nav />
       <main className="flex-1 flex flex-col">
-        {" "}
         {/* <HeaderDashboard /> */}
         <div className="relative flex-1 flex">
           {children}
