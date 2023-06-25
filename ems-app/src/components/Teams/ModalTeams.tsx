@@ -39,7 +39,7 @@ function ModalTeams({ trigger, setModal }: Props) {
         </SheetDescription>
       </SheetHeader>
       <div className="flex flex-col mt-10 gap-7">
-        <CreateTeamForm />
+        <CreateTeamForm setModal={setModal} />
       </div>
     </SheetContent>
   );

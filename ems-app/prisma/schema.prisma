@@ -73,7 +73,7 @@ model Employee {
 model Teams {
   id          String        @id @default(uuid())
   name        String
-  tasks       String
+  tasks       String?
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   members     Employee[]

@@ -4,7 +4,7 @@ import { promise } from "zod";
 
 export default async function fetchEmployesNoTeam() {
   try {
-    const data = await axios.get("/api/admin/employee/team/teamless");
+    const data = await axios.get("/api/admin/teams/teamless");
     return data.data as Employee[];
   } catch (error) {
     return Promise.reject(error);

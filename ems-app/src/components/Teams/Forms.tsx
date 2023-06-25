@@ -16,8 +16,14 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
-import { useQuery } from "@tanstack/react-query";
-import { Employee } from "@prisma/client";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Employee, Teams } from "@prisma/client";
+import { Checkbox } from "../ui/checkbox";
+import axios from "axios";
+import { on } from "events";
+import { toast } from "../ui/use-toast";
+import { type } from "os";
+import { Dispatch, SetStateAction } from "react";
 
 const formSchema = z.object({
   teamName: z
@@ -34,18 +40,47 @@ const formSchema = z.object({
       message: "Task must be at least 2 characters long.",
     })
     .optional(),
-  members: z.array(z.string()).optional(),
+  members: z.array(z.string()),
 });
+export type TeamSubmitType = z.infer<typeof formSchema>;
+type Props = {
+  setModal: Dispatch<SetStateAction<boolean>>;
+};
 
-export function CreateTeamForm() {
+export function CreateTeamForm({ setModal }: Props) {
   const noteam = useQuery({
     queryKey: ["employenoTeam"],
+  });
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: async (values: TeamSubmitType) => {
+      const res = await axios.post("/api/admin/teams/create", values);
+      return res;
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description: error.message,
+      });
+    },
+    onSuccess: (e) => {
+      toast({
+        title: "Team Created",
+        description: "Team has been created successfully.",
+      });
+      setModal(false);
+      queryClient.invalidateQueries(["teams"]);
+      queryClient.refetchQueries(["employenoTeam"]);
+      queryClient.invalidateQueries(["employee"]);
+    },
   });
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       teamName: "",
+
+      members: [],
     },
   });
 
@@ -53,7 +88,7 @@ export function CreateTeamForm() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values);
+    mutation.mutate(values);
   }
 
   return (
@@ -96,50 +131,58 @@ export function CreateTeamForm() {
             render={() => (
               <FormItem>
                 <div className="mb-4">
-                  <FormLabel className="text-base">Sidebar</FormLabel>
+                  <FormLabel className="text-base">Add Members</FormLabel>
                   <FormDescription>
-                    Select the items you want to display in the sidebar.
+                    Select the members you want to add to your team.
+                    <div>(Only teamless employees are shown)</div>
                   </FormDescription>
                 </div>
-                {items.map((item) => (
-                  <FormField
-                    key={item.id}
-                    control={form.control}
-                    name="items"
-                    render={({ field }) => {
-                      return (
-                        <FormItem
-                          key={item.id}
-                          className="flex flex-row items-start space-x-3 space-y-0"
-                        >
-                          <FormControl>
-                            <Checkbox
-                              checked={field.value?.includes(item.id)}
-                              onCheckedChange={(checked) => {
-                                return checked
-                                  ? field.onChange([...field.value, item.id])
-                                  : field.onChange(
-                                      field.value?.filter(
-                                        (value) => value !== item.id
-                                      )
-                                    );
-                              }}
-                            />
-                          </FormControl>
-                          <FormLabel className="font-normal">
-                            {item.label}
-                          </FormLabel>
-                        </FormItem>
-                      );
-                    }}
-                  />
-                ))}
+                <div className=" overflow-y-scroll max-h-40 border border-primary p-4 rounded-lg space-y-1">
+                  {(noteam.data as Employee[]).map((item) => (
+                    <FormField
+                      key={item.id}
+                      control={form.control}
+                      name="members"
+                      render={({ field }) => {
+                        return (
+                          <FormItem
+                            key={item.id}
+                            className="flex flex-row space-x-3 space-y-0 items-center hover:bg-base-200 p-2 rounded-lg"
+                          >
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value?.includes(item.id)}
+                                onCheckedChange={(checked) => {
+                                  return checked
+                                    ? field.onChange([...field.value!, item.id])
+                                    : field.onChange(
+                                        field.value?.filter(
+                                          (value) => value !== item.id
+                                        )
+                                      );
+                                }}
+                              />
+                            </FormControl>
+                            <FormLabel className="font-normal text-lg">
+                              {`${item.firstName} ${item.lastName} - ${item.email}`}
+                            </FormLabel>
+                          </FormItem>
+                        );
+                      }}
+                    />
+                  ))}
+                </div>
                 <FormMessage />
               </FormItem>
             )}
           />
         )}
-        <Button type="submit">Submit</Button>
+        <Button
+          className="w-full text-primary bg-base-100 border border-primary hover:bg-primary hover:text-base-100"
+          type="submit"
+        >
+          Submit
+        </Button>
       </form>
     </Form>
   );

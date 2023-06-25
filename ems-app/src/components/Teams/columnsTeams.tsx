@@ -29,6 +29,17 @@ export const columns: ColumnDef<Teams>[] = [
     header: "TeamName",
   },
   {
+    accessorKey: "tasks",
+    header: "Task",
+    cell: ({ row }) => {
+      const formatted = `${
+        row.original.tasks ? row.original.tasks : "No Tasks"
+      }`;
+
+      return <div className="">{formatted}</div>;
+    },
+  },
+  {
     id: "actions",
     cell: ({ row }) => {
       const payment = row.original;
