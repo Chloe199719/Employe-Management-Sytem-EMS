@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 import fetchSearchTeamsResult from "@/lib/frontend/GetSearchTeams";
+import ModalTeams from "./ModalTeams";
 
 type Props = {};
 //
@@ -62,7 +63,7 @@ function SearchTeams({}: Props) {
             <AiOutlineUsergroupAdd className="w-4 h-4" />
           </span>
         </SheetTrigger>
-        {/* <AddEmployerModal setModal={setShowModal} trigger={showModal} /> */}
+        <ModalTeams trigger={showModal} setModal={setShowModal} />
       </Sheet>
     </div>
   );
