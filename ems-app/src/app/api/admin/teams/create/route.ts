@@ -1,6 +1,7 @@
 import { TeamSubmitType } from "@/components/Teams/Forms";
 import prismaClient from "@/lib/prisma/prisma";
 import { auth } from "@clerk/nextjs";
+import { create } from "domain";
 
 export async function POST(req: Request) {
   try {
@@ -22,20 +23,30 @@ export async function POST(req: Request) {
     }
     const body = (await req.json()) as TeamSubmitType;
     // throw new Error("Not implemented");
+
     const data = await prismaClient.teams.create({
       data: {
         name: body.teamName,
-        tasks: body.task,
         members: {
           connect: body.members.map((member) => ({ id: member })),
         },
       },
     });
 
+    if (body.task) {
+      await prismaClient.teamTask.create({
+        data: {
+          task: body.task,
+          team: {
+            connect: { id: data.id },
+          },
+          deadline: new Date(body.deadLine as Date),
+        },
+      });
+    }
+    console.log("done");
     return new Response(JSON.stringify(data), { status: 200 });
   } catch (error) {
-    console.log(error);
-
     return new Response("Unauthorized", { status: 401 });
   }
 }

@@ -22,7 +22,7 @@ export default function RootLayout({
         <QueryWrapper>
           <body className={`${inter.className} min-h-screen flex flex-col  `}>
             {children}
-            <footer className="footer footer-center p-4 bg-base-300 text-base-content">
+            <footer className="footer footer-center p-4 bg-base-100 text-base-content">
               <div>
                 <p>
                   Copyright © 2023 - All right reserved by ACME Industries Ltd

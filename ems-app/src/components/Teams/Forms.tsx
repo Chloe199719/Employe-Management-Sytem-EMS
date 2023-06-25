@@ -24,6 +24,11 @@ import { on } from "events";
 import { toast } from "../ui/use-toast";
 import { type } from "os";
 import { Dispatch, SetStateAction } from "react";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { cn } from "@/lib/utils";
+import { CalendarIcon } from "lucide-react";
+import { Calendar } from "../ui/calendar";
+import { format } from "date-fns";
 
 const formSchema = z.object({
   teamName: z
@@ -41,6 +46,7 @@ const formSchema = z.object({
     })
     .optional(),
   members: z.array(z.string()),
+  deadLine: z.date().optional(),
 });
 export type TeamSubmitType = z.infer<typeof formSchema>;
 type Props = {
@@ -79,7 +85,8 @@ export function CreateTeamForm({ setModal }: Props) {
     resolver: zodResolver(formSchema),
     defaultValues: {
       teamName: "",
-
+      deadLine: new Date(),
+      task: undefined,
       members: [],
     },
   });
@@ -120,6 +127,47 @@ export function CreateTeamForm({ setModal }: Props) {
               <FormDescription>
                 Assign a task to your team. (Optional)
               </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="deadLine"
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <FormLabel>Dead Line if you filled task</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        " pl-3 text-left font-normal",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      {field.value ? (
+                        format(field.value, "PPP")
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
+                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    className="bg-base-100/90"
+                    mode="single"
+                    selected={field.value}
+                    onSelect={(date) => {
+                      field.onChange(date!);
+                    }}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
               <FormMessage />
             </FormItem>
           )}

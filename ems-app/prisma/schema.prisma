@@ -78,6 +78,7 @@ model Teams {
   updatedAt   DateTime      @updatedAt
   members     Employee[]
   TeamMessage TeamMessage[] @relation("receiver")
+  TeamTask    TeamTask[]
 }
 
 model timekeeping {
@@ -100,6 +101,17 @@ model task {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   deadline   DateTime
+}
+
+model TeamTask {
+  id        String   @id @default(uuid())
+  team      Teams    @relation(fields: [teamID], references: [id], onDelete: Cascade)
+  teamID    String
+  task      String
+  done      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deadline  DateTime
 }
 
 model Schedule {

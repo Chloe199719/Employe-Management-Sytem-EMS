@@ -1,12 +1,7 @@
-import LoadingNavBar from "@/components/Loading/LoadingNavBar";
-import LoadingTeam from "@/components/Loading/LoadingTeam";
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
-import Link from "next/link";
-import { AiOutlineArrowLeft } from "react-icons/ai";
-import { BsFillTrash3Fill } from "react-icons/bs";
 import NavBar from "./NavBar";
 import prismaClient from "@/lib/prisma/prisma";
+import Team from "./Team";
+import Canvas from "@/components/Dashboard/Canvas";
 
 type Props = {
   params: {
@@ -20,7 +15,15 @@ async function getTeamData(teamid: string) {
         id: teamid,
       },
       include: {
-        members: true,
+        members: {
+          select: {
+            firstName: true,
+            lastName: true,
+            email: true,
+            id: true,
+          },
+        },
+        TeamTask: true,
       },
     });
     return data;
@@ -41,16 +44,15 @@ async function page({ params }: Props) {
     throw new Error("Team not found");
   }
   return (
-    <div className="flex flex-1 flex-col p-4">
-      <div className="bg-base-100 p-4 rounded-lg flex flex-col gap-8 flex-1">
-        <NavBar
-          created={teamData.createdAt}
-          teamName={teamData.name}
-          teamId={teamData.id}
-        />
-        <hr />
-      </div>
-    </div>
+    <Canvas>
+      <NavBar
+        created={teamData.createdAt}
+        teamName={teamData.name}
+        teamId={teamData.id}
+      />
+      <hr />
+      <Team teamData={teamData} />
+    </Canvas>
   );
 }
 export default page;
