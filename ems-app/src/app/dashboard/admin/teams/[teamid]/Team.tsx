@@ -1,4 +1,5 @@
 import AddEmployerBtn from "@/components/teamsID/AddEmployerBtn";
+import AddTaskBtn from "@/components/teamsID/AddTaskBtn";
 import WarningDialogRemove from "@/components/teamsID/WarningDialogRemove";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
@@ -76,9 +77,7 @@ function Team({ teamData }: Props) {
           )}
         </ul>
 
-        <Button className="w-2/3 bg-base-100 border border-primary text-primary  rounded-xl hover:bg-primary hover:text-base-100 active:translate-y-1">
-          Add Task
-        </Button>
+        <AddTaskBtn id={teamData.id} />
       </div>
     </div>
   );

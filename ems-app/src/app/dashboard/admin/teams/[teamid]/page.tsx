@@ -39,7 +39,7 @@ function delay() {
 }
 
 async function page({ params }: Props) {
-  await delay();
+  // await delay();
   const teamData = await getTeamData(params.teamid);
   if (!teamData) {
     throw new Error("Team not found");
