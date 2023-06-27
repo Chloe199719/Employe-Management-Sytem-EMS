@@ -13,6 +13,7 @@ const teamWith = Prisma.validator<Prisma.TeamsArgs>()({
         lastName: true,
         email: true,
         id: true,
+        position: true,
       },
     },
     TeamTask: true,
@@ -36,7 +37,8 @@ function Team({ teamData }: Props) {
                   className="flex items-center justify-between w-2/3"
                 >
                   <span className="">
-                    {member.firstName} {member.lastName} - {member.email}
+                    {member.firstName} {member.lastName} - {member.email} -{" "}
+                    {member.position}
                   </span>
                   {/* PlaceHolder */}
                   <span>

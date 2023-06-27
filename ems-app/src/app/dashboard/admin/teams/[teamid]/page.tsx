@@ -21,6 +21,7 @@ async function getTeamData(teamid: string) {
             lastName: true,
             email: true,
             id: true,
+            position: true,
           },
         },
         TeamTask: true,
