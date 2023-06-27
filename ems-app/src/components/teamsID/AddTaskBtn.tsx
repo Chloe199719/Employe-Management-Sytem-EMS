@@ -15,7 +15,7 @@ function AddTaskBtn({ id }: Props) {
       }}
       open={showModal}
     >
-      <SheetTrigger className="flex px-4 py-2 justify-center w-2/3 bg-base-100 border border-primary text-primary  rounded-xl hover:bg-primary hover:text-base-100 active:translate-y-1">
+      <SheetTrigger className="flex px-4 py-2 justify-center  bg-base-100 border border-primary text-primary  rounded-xl hover:bg-primary hover:text-base-100 active:translate-y-1">
         Add Task
       </SheetTrigger>
       <ModalTaskID setModal={setShowModal} trigger={showModal} id={id} />
