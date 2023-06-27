@@ -35,8 +35,8 @@ function ModalTeamsID({ trigger, setModal, id }: Props) {
   return (
     <SheetContent className="bg-base-100 overflow-y-scroll">
       <SheetHeader>
-        <SheetTitle>Create an Team</SheetTitle>
-        <SheetDescription>Add Employe to this Team.</SheetDescription>
+        <SheetTitle>Add Employee to Team</SheetTitle>
+        <SheetDescription>Add Employee to this Team.</SheetDescription>
       </SheetHeader>
       <div className="flex flex-col mt-10 gap-7">
         {noteam.isSuccess && (

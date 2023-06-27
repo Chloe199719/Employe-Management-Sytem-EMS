@@ -1,4 +1,5 @@
 import AddEmployerBtn from "@/components/teamsID/AddEmployerBtn";
+import WarningDialogRemove from "@/components/teamsID/WarningDialogRemove";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 
@@ -34,11 +35,13 @@ function Team({ teamData }: Props) {
                   key={member.id}
                   className="flex items-center justify-between w-2/3"
                 >
-                  <span>
-                    {member.firstName} {member.lastName}
+                  <span className="">
+                    {member.firstName} {member.lastName} - {member.email}
                   </span>
                   {/* PlaceHolder */}
-                  <span>X</span>
+                  <span>
+                    <WarningDialogRemove id={member.id} />
+                  </span>
                 </li>
               );
             })
@@ -57,12 +60,12 @@ function Team({ teamData }: Props) {
               return (
                 <li
                   key={task.id}
-                  className="flex items-center justify-between w-2/3"
+                  className="grid grid-cols-3 justify-between w-2/3"
                 >
                   <span>{task.task}</span>
                   <span>{task.deadline.toDateString()} </span>
                   {/* PlaceHolder */}
-                  <span>X</span>
+                  <span className=" justify-self-end">X</span>
                 </li>
               );
             })
