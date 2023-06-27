@@ -1,5 +1,7 @@
+import AddEmployerBtn from "@/components/teamsID/AddEmployerBtn";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Sheet, SheetTrigger } from "@/components/ui/sheet";
+
 import { Prisma } from "@prisma/client";
 
 const teamWith = Prisma.validator<Prisma.TeamsArgs>()({
@@ -28,7 +30,10 @@ function Team({ teamData }: Props) {
           {teamData.members.length > 0 ? (
             teamData.members.map((member) => {
               return (
-                <li className="flex items-center justify-between w-2/3">
+                <li
+                  key={member.id}
+                  className="flex items-center justify-between w-2/3"
+                >
                   <span>
                     {member.firstName} {member.lastName}
                   </span>
@@ -41,9 +46,7 @@ function Team({ teamData }: Props) {
             <li>No members</li>
           )}
         </ul>
-        <Button className="w-2/3 bg-base-100 border border-primary text-primary  rounded-xl hover:bg-primary hover:text-base-100 active:translate-y-1">
-          Team Member
-        </Button>
+        <AddEmployerBtn id={teamData.id} />
       </div>
       <div className="flex flex-1 flex-col gap-8">
         <h2 className="text-lg uppercase text-primary/50">Tasks</h2>
@@ -52,7 +55,10 @@ function Team({ teamData }: Props) {
           {teamData.TeamTask.length > 0 ? (
             teamData.TeamTask.map((task) => {
               return (
-                <li className="flex items-center justify-between w-2/3">
+                <li
+                  key={task.id}
+                  className="flex items-center justify-between w-2/3"
+                >
                   <span>{task.task}</span>
                   <span>{task.deadline.toDateString()} </span>
                   {/* PlaceHolder */}

@@ -33,7 +33,7 @@ async function getTeamData(teamid: string) {
 }
 function delay() {
   return new Promise((resolve) => {
-    setTimeout(resolve, 5000);
+    setTimeout(resolve, 1000);
   });
 }
 
