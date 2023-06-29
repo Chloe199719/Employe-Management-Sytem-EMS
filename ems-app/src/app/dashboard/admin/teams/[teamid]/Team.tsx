@@ -3,8 +3,13 @@ import AddTaskBtn from "@/components/teamsID/AddTaskBtn";
 import WarningDialogRemove from "@/components/teamsID/WarningDialogRemove";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
-
+import { IoIosRemoveCircle } from "react-icons/io";
 import { Prisma } from "@prisma/client";
+import { AiFillCheckCircle } from "react-icons/ai";
+import { CiCircleRemove } from "react-icons/ci";
+import { HiPencil } from "react-icons/hi";
+import ToggleTaskComplete from "@/components/teamsID/ToggleTaskComplete";
+import AlertDialogRemoveTask from "@/components/teamsID/AlertDialogRemoveTask";
 
 const teamWith = Prisma.validator<Prisma.TeamsArgs>()({
   include: {
@@ -29,7 +34,7 @@ function Team({ teamData }: Props) {
     <div className="flex pl-20 px-12 gap-20">
       <div className="flex flex-col flex-1 gap-8">
         <h2 className="text-lg uppercase text-primary/50">Team Members</h2>
-        <ul className="flex flex-col w-full gap-5">
+        <ul className="flex flex-col w-full gap-5 overflow-y-scroll max-h-72">
           <li className="grid grid-cols-4 items-center px-4  w-full">
             <span>Name</span>
             <span>Email</span>
@@ -44,10 +49,10 @@ function Team({ teamData }: Props) {
                   key={member.id}
                   className="grid grid-cols-4 items-center  w-full hover:bg-primary/10 rounded-xl px-4 py-2"
                 >
-                  <span className="">
+                  <span className="truncate">
                     {member.firstName} {member.lastName}
                   </span>
-                  <span>{member.email}</span>
+                  <span className=" truncate">{member.email}</span>
                   <span>{member.position}</span>
                   <span className=" justify-self-end">
                     <WarningDialogRemove id={member.id} />
@@ -56,7 +61,7 @@ function Team({ teamData }: Props) {
               );
             })
           ) : (
-            <li>No members</li>
+            <li className=" px-4">No members</li>
           )}
         </ul>
         <AddEmployerBtn id={teamData.id} />
@@ -64,12 +69,12 @@ function Team({ teamData }: Props) {
       <div className="flex flex-1 flex-col gap-8">
         <h2 className="text-lg uppercase text-primary/50">Tasks</h2>
 
-        <ul className="flex flex-col w-full gap-5">
-          <li className="grid grid-cols-3 items-center px-4  w-full">
+        <ul className="flex flex-col w-full gap-5 overflow-y-scroll max-h-72">
+          <li className="grid grid-cols-4 gap-2 items-center px-4  w-full">
             <span>Task</span>
             <span>Due Data</span>
-
-            <span className=" justify-self-end">Actions</span>
+            <span>Status</span>
+            <span className=" justify-self-end ">Actions</span>
           </li>
           <hr />
           {teamData.TeamTask.length > 0 ? (
@@ -77,17 +82,22 @@ function Team({ teamData }: Props) {
               return (
                 <li
                   key={task.id}
-                  className="grid grid-cols-3 justify-between w-full hover:bg-primary/10 rounded-xl px-4 py-2"
+                  className="grid grid-cols-4 gap-2 justify-between w-full hover:bg-primary/10 rounded-xl px-4 py-2"
                 >
-                  <span>{task.task}</span>
+                  <span className=" truncate">{task.task}</span>
                   <span>{task.deadline.toDateString()} </span>
+                  <span>{task.done ? "Done" : "Ongoing"}</span>
                   {/* PlaceHolder */}
-                  <span className=" justify-self-end">X</span>
+                  <span className=" justify-self-end flex gap-2">
+                    <ToggleTaskComplete taskid={task.id} />
+                    <HiPencil className="h-6 w-6 text-yellow-600 hover:text-yellow-400/50 active:translate-y-1" />
+                    <AlertDialogRemoveTask taskid={task.id} />
+                  </span>
                 </li>
               );
             })
           ) : (
-            <li>No tasks</li>
+            <li className=" px-4">No tasks</li>
           )}
         </ul>
 

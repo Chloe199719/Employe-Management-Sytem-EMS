@@ -24,7 +24,9 @@ async function getTeamData(teamid: string) {
             position: true,
           },
         },
-        TeamTask: true,
+        TeamTask: {
+          orderBy: [{ done: "asc" }, { deadline: "asc" }],
+        },
       },
     });
     return data;
