@@ -1,4 +1,4 @@
-import { AddTeamType } from "@/components/teamsID/AddTask";
+import { EditTaskFormType } from "@/components/teamsID/EditTaskForm";
 import prismaClient from "@/lib/prisma/prisma";
 import { auth } from "@clerk/nextjs";
 
@@ -20,21 +20,20 @@ export async function POST(req: Request) {
     if (getRole.role !== "admin") {
       return new Response("Unauthorized", { status: 401 });
     }
-    const body = (await req.json()) as AddTeamType;
-
-    const data = await prismaClient.teamTask.create({
+    const body = (await req.json()) as EditTaskFormType;
+    const update = await prismaClient.teamTask.update({
+      where: {
+        id: body.id,
+      },
       data: {
         task: body.task,
         deadline: new Date(body.deadLine),
         description: body.description,
-        team: {
-          connect: { id: body.id },
-        },
       },
     });
     // throw new Error("Not implemented");
 
-    return new Response(JSON.stringify(data), { status: 200 });
+    return new Response(JSON.stringify(update), { status: 200 });
   } catch (error) {
     console.log(error);
     return new Response("Unauthorized", { status: 401 });

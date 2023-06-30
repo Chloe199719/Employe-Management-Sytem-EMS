@@ -15,8 +15,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
-
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Employee, TeamTask, Teams } from "@prisma/client";
+import { Checkbox } from "../ui/checkbox";
 import axios from "axios";
 
 import { toast } from "../ui/use-toast";
@@ -27,8 +28,8 @@ import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { format } from "date-fns";
-import { useRouter } from "next/navigation";
 import { Textarea } from "../ui/textarea";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   task: z.string().min(2, {
@@ -37,21 +38,20 @@ const formSchema = z.object({
   description: z.string().optional(),
   deadLine: z.date(),
 });
-
-export type AddTeamTask = z.infer<typeof formSchema>;
-export interface AddTeamType extends AddTeamTask {
+export type EditTaskForm = z.infer<typeof formSchema>;
+export interface EditTaskFormType extends EditTaskForm {
   id: string;
 }
 type Props = {
   setModal: Dispatch<SetStateAction<boolean>>;
-  id: string;
+  teamTask: TeamTask;
 };
 
-export function AddTaskForm({ setModal, id }: Props) {
+export function EditTaskForm({ setModal, teamTask }: Props) {
   const router = useRouter();
   const mutation = useMutation({
-    mutationFn: async (values: AddTeamType) => {
-      const res = await axios.post("/api/admin/teams/addtask", values);
+    mutationFn: async (values: EditTaskFormType) => {
+      const res = await axios.post("/api/admin/tasks/edit", values);
       return res;
     },
     onError: (error: any) => {
@@ -62,20 +62,20 @@ export function AddTaskForm({ setModal, id }: Props) {
     },
     onSuccess: (e) => {
       toast({
-        title: "Task Created",
-        description: "Task has been created.",
+        title: "Task Edited",
+        description: "Task has been edited successfully.",
       });
-      setModal(false);
       router.refresh();
+      setModal(false);
     },
   });
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      deadLine: new Date(),
-      task: undefined,
-      description: undefined,
+      deadLine: teamTask.deadline,
+      task: teamTask.task,
+      description: teamTask.description ? teamTask.description : undefined,
     },
   });
 
@@ -83,7 +83,7 @@ export function AddTaskForm({ setModal, id }: Props) {
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    mutation.mutate({ ...values, id: id });
+    mutation.mutate({ ...values, id: teamTask.id });
   }
 
   return (
@@ -98,7 +98,7 @@ export function AddTaskForm({ setModal, id }: Props) {
               <FormControl>
                 <Input placeholder="Create an EMS..." {...field} />
               </FormControl>
-              <FormDescription>Assign a task to your team.</FormDescription>
+              <FormDescription>Edit Task name and description</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -108,7 +108,7 @@ export function AddTaskForm({ setModal, id }: Props) {
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Address</FormLabel>
+              <FormLabel>Task Description</FormLabel>
               <FormControl>
                 <Textarea
                   placeholder="Description..."
@@ -126,7 +126,7 @@ export function AddTaskForm({ setModal, id }: Props) {
           name="deadLine"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <FormLabel>Dead Line if you filled task</FormLabel>
+              <FormLabel>Dead Line</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
@@ -162,7 +162,6 @@ export function AddTaskForm({ setModal, id }: Props) {
             </FormItem>
           )}
         />
-
         <Button
           className="w-full text-primary bg-base-100 border border-primary hover:bg-primary hover:text-base-100"
           type="submit"

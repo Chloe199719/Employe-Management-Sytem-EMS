@@ -10,6 +10,7 @@ import { CiCircleRemove } from "react-icons/ci";
 import { HiPencil } from "react-icons/hi";
 import ToggleTaskComplete from "@/components/teamsID/ToggleTaskComplete";
 import AlertDialogRemoveTask from "@/components/teamsID/AlertDialogRemoveTask";
+import EditTaskModal from "@/components/teamsID/EditTaskModal";
 
 const teamWith = Prisma.validator<Prisma.TeamsArgs>()({
   include: {
@@ -90,7 +91,7 @@ function Team({ teamData }: Props) {
                   {/* PlaceHolder */}
                   <span className=" justify-self-end flex gap-2">
                     <ToggleTaskComplete taskid={task.id} />
-                    <HiPencil className="h-6 w-6 text-yellow-600 hover:text-yellow-400/50 active:translate-y-1" />
+                    <EditTaskModal teamTask={task} />
                     <AlertDialogRemoveTask taskid={task.id} />
                   </span>
                 </li>
