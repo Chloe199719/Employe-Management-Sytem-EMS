@@ -50,7 +50,10 @@ export const columns: ColumnDef<taskWith>[] = [
 
       return (
         <div className="">
-          <Link href={`/dashboard/admin/teams/${row.original.teamID}`}>
+          <Link
+            className="link link-primary link-hover"
+            href={`/dashboard/admin/teams/${row.original.teamID}`}
+          >
             {formatted}
           </Link>
         </div>

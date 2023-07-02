@@ -8,6 +8,7 @@ import { AiOutlineUsergroupAdd } from "react-icons/ai";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 import fetchSearchTeamsResult from "@/lib/frontend/GetSearchTask";
 import ModalAddTask from "./ModalAddTask";
+import { BiTask } from "react-icons/bi";
 
 type Props = {};
 //
@@ -60,7 +61,7 @@ function SearchTasks({}: Props) {
         <SheetTrigger className="btn">
           <span className="hidden md:block">Add Task</span>
           <span className="">
-            <AiOutlineUsergroupAdd className="w-4 h-4" />
+            <BiTask className="h-4 w-4" />
           </span>
         </SheetTrigger>
         <ModalAddTask setModal={setShowModal} trigger={showModal} />
