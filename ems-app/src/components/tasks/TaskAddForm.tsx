@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
@@ -15,43 +16,47 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Employee, Teams } from "@prisma/client";
+import { Checkbox } from "../ui/checkbox";
 import axios from "axios";
-
+import { on } from "events";
 import { toast } from "../ui/use-toast";
-
+import { type } from "os";
 import { Dispatch, SetStateAction } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { format } from "date-fns";
-import { useRouter } from "next/navigation";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 import { Textarea } from "../ui/textarea";
 
 const formSchema = z.object({
+  id: z.string(),
   task: z.string().min(2, {
     message: "Task must be at least 2 characters long.",
   }),
-  description: z.string().optional(),
-  deadLine: z.date(),
-});
+  description: z.string(),
 
-export type AddTeamTask = z.infer<typeof formSchema>;
-export interface AddTeamType extends AddTeamTask {
-  id: string;
-}
+  deadLine: z.date().optional(),
+});
+export type TaskSubmitType = z.infer<typeof formSchema>;
 type Props = {
   setModal: Dispatch<SetStateAction<boolean>>;
-  id: string;
+  teams: Teams[] | undefined;
 };
 
-export function AddTaskForm({ setModal, id }: Props) {
-  const router = useRouter();
+export function TaskAddForm({ setModal, teams }: Props) {
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: async (values: AddTeamType) => {
+    mutationFn: async (values: TaskSubmitType) => {
       const res = await axios.post("/api/admin/teams/addtask", values);
       return res;
     },
@@ -67,7 +72,7 @@ export function AddTaskForm({ setModal, id }: Props) {
         description: "Task has been created.",
       });
       setModal(false);
-      router.refresh();
+
       queryClient.invalidateQueries(["tasks"]);
     },
   });
@@ -75,9 +80,10 @@ export function AddTaskForm({ setModal, id }: Props) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      id: undefined,
+      description: undefined,
       deadLine: new Date(),
       task: undefined,
-      description: undefined,
     },
   });
 
@@ -85,12 +91,46 @@ export function AddTaskForm({ setModal, id }: Props) {
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    mutation.mutate({ ...values, id: id });
+    mutation.mutate(values);
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <FormField
+          control={form.control}
+          name="id"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Team</FormLabel>
+              <Select
+                onValueChange={(e) => {
+                  field.onChange(e);
+                }}
+                defaultValue={field.value}
+                {...field}
+              >
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Team" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {teams &&
+                    teams.map((team) => {
+                      return (
+                        <SelectItem key={team.id} value={team.id}>
+                          {team.name}
+                        </SelectItem>
+                      );
+                    })}
+                </SelectContent>
+              </Select>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="task"
@@ -100,7 +140,9 @@ export function AddTaskForm({ setModal, id }: Props) {
               <FormControl>
                 <Input placeholder="Create an EMS..." {...field} />
               </FormControl>
-              <FormDescription>Assign a task to your team.</FormDescription>
+              <FormDescription>
+                Task to be completed by the team
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -128,7 +170,7 @@ export function AddTaskForm({ setModal, id }: Props) {
           name="deadLine"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <FormLabel>Dead Line if you filled task</FormLabel>
+              <FormLabel>Dead Line</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
