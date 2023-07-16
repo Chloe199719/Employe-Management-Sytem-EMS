@@ -3,8 +3,6 @@
 import { useEffect, useState } from "react";
 import useDebounce from "../hooks/useDebounce";
 import { useQuery } from "@tanstack/react-query";
-
-import { AiOutlineUsergroupAdd } from "react-icons/ai";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 import fetchSearchTeamsResult from "@/lib/frontend/GetSearchTask";
 import ModalAddTask from "./ModalAddTask";

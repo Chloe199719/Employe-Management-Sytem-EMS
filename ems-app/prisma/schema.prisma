@@ -65,9 +65,10 @@ model Employee {
   Teams       Teams?        @relation(fields: [teamsId], references: [id])
   teamsId     String?
 
-  sent        Message[]     @relation("sender")
-  from        Message[]     @relation("receiver")
-  TeamMessage TeamMessage[] @relation("sender")
+  sent         Message[]      @relation("sender")
+  from         Message[]      @relation("receiver")
+  TeamMessage  TeamMessage[]  @relation("sender")
+  TaskComments TaskComments[]
 }
 
 model Teams {
@@ -104,15 +105,27 @@ model task {
 }
 
 model TeamTask {
-  id          String   @id @default(uuid())
-  team        Teams    @relation(fields: [teamID], references: [id], onDelete: Cascade)
-  teamID      String
-  task        String
-  description String?
-  done        Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  deadline    DateTime
+  id           String         @id @default(uuid())
+  team         Teams          @relation(fields: [teamID], references: [id], onDelete: Cascade)
+  teamID       String
+  task         String
+  description  String?
+  done         Boolean        @default(false)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  deadline     DateTime
+  TaskComments TaskComments[]
+}
+
+model TaskComments {
+  id         String   @id @default(uuid())
+  task       TeamTask @relation(fields: [taskID], references: [id], onDelete: Cascade)
+  taskID     String
+  employee   Employee @relation(fields: [employeeID], references: [id])
+  employeeID String
+  comment    String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 model Schedule {
