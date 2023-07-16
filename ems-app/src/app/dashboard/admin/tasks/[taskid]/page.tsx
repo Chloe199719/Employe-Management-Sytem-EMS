@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import NavBar from "./NavBar";
 import prismaClient from "@/lib/prisma/prisma";
+import Comments from "@/components/taskid/Comments";
+import { InputForm } from "@/components/taskid/Input";
 
 type Props = {
   params: {
@@ -41,17 +43,23 @@ async function page({ params }: Props) {
 
       <div className="flex  px-12 gap-16  flex-1">
         <div className="flex flex-col flex-1 gap-8 items-center">
-          <h2 className="text-lg uppercase text-primary/50 w-full flex justify-center">
-            <Skeleton className="w-full h-8 rounded-xl" />
+          <h2 className="text-lg uppercase text-primary/50 w-full flex justify-center gap-2">
+            {taskdata.task} <span>- </span>
+            <span
+              className={`${
+                taskdata.done ? "text-green-400 " : "text-red-400"
+              }`}
+            >
+              {taskdata.done ? " Done" : " Not Done"}
+            </span>
           </h2>
-          <div className="w-full flex justify-center">
-            <Skeleton className="w-full h-8 rounded-xl" />
-          </div>
-          <div className="flex flex-col gap-3 w-full items-center">
-            <h3 className="text-lg uppercase text-primary/50 w-full text-center">
+          <div className="flex flex-col gap-3 w-full">
+            <h3 className="text-base uppercase text-primary/50 w-full text-center">
               Description
             </h3>
-            <Skeleton className=" w-full h-52 rounded-xl" />
+            <div className="p-2 border border-primary rounded-xl h-96 overflow-y-scroll">
+              <p className="text-left">{taskdata.description}</p>
+            </div>
           </div>
           <div className="flex  gap-3 w-full">
             <Button
@@ -78,8 +86,10 @@ async function page({ params }: Props) {
           <h2 className="text-lg uppercase text-primary/50 w-full text-center">
             Comments
           </h2>
-          <div className="flex flex-1  gap-3  flex-col-reverse w-full items-center">
-            <Skeleton className="w-full h-full rounded-xl" />
+          <div className="flex flex-1  gap-3  flex-col w-full  p-2 border border-primary rounded-xl">
+            <Comments taskid={taskdata.id} teamid={taskdata.teamID} />
+            <hr className="text-primary bg-primary border-primary" />
+            <InputForm />
           </div>
         </div>
       </div>
