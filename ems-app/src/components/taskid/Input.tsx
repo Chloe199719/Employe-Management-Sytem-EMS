@@ -25,23 +25,28 @@ const FormSchema = z.object({
     message: "Message must be at least 2 characters.",
   }),
 });
-export interface FormValues extends z.infer<typeof FormSchema> {
+export interface FormValuesTaskComment extends z.infer<typeof FormSchema> {
   taskId: string;
+  teamID: string;
 }
 type Props = {
   taskId: string;
+  teamID: string;
 };
 
-export function InputForm({ taskId }: Props) {
+export function InputForm({ taskId, teamID }: Props) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
+    defaultValues: {
+      message: "",
+    },
   });
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: async (data: FormValues) => {
+    mutationFn: async (data: FormValuesTaskComment) => {
       try {
-        const res = await axios.post("/api/admin/employee/create", data);
+        const res = await axios.post("/api/admin/tasks/createcomment", data);
         return res;
       } catch (error) {
         return error;
@@ -49,10 +54,10 @@ export function InputForm({ taskId }: Props) {
     },
     onSuccess: (e) => {
       toast({
-        title: "Employee created",
-        description: "Employee created successfully",
+        title: "Comment created",
+        description: "Comment created successfully",
       });
-
+      form.reset();
       queryClient.invalidateQueries(["taskComments"]);
     },
     onError: (e) => {
@@ -63,7 +68,7 @@ export function InputForm({ taskId }: Props) {
     },
   });
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    mutation.mutate({ ...data, taskId });
+    mutation.mutate({ ...data, taskId, teamID });
   }
 
   return (
