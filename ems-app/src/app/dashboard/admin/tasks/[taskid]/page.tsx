@@ -2,12 +2,43 @@ import Canvas from "@/components/Dashboard/Canvas";
 import LoadingNavBar from "@/components/Loading/LoadingNavBar";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import NavBar from "./NavBar";
+import prismaClient from "@/lib/prisma/prisma";
 
-type Props = {};
-function page({}: Props) {
+type Props = {
+  params: {
+    taskid: string;
+  };
+};
+async function getTaskData(taskid: string) {
+  try {
+    const data = await prismaClient.teamTask.findUniqueOrThrow({
+      where: {
+        id: taskid,
+      },
+      include: {
+        TaskComments: true,
+      },
+    });
+    return data;
+  } catch (error) {
+    return null;
+  }
+}
+
+async function page({ params }: Props) {
+  const taskdata = await getTaskData(params.taskid);
+  if (!taskdata) {
+    throw new Error("Task not found");
+  }
   return (
     <Canvas>
-      <LoadingNavBar />
+      <NavBar
+        task={taskdata.task}
+        deadline={taskdata.deadline}
+        taskissue={taskdata.createdAt}
+      />
+
       <div className="flex  px-12 gap-16  flex-1">
         <div className="flex flex-col flex-1 gap-8 items-center">
           <h2 className="text-lg uppercase text-primary/50 w-full flex justify-center">
