@@ -33,7 +33,7 @@ function Comments({ taskid, teamid }: Props) {
       {data.map((comment) => {
         if (comment.isOwner) {
           return (
-            <HoverCard>
+            <HoverCard key={comment.id}>
               <HoverCardTrigger>
                 <div className="flex  justify-end gap-5 items-center">
                   <div>{comment.comment}</div>
