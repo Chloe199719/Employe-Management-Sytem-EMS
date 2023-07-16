@@ -15,8 +15,9 @@ import { EditTaskForm } from "./EditTaskForm";
 
 type Props = {
   teamTask: TeamTask;
+  isButton?: boolean;
 };
-function EditTaskModal({ teamTask }: Props) {
+function EditTaskModal({ teamTask, isButton }: Props) {
   const [showModal, setShowModal] = useState(false);
   return (
     <Sheet
@@ -25,8 +26,18 @@ function EditTaskModal({ teamTask }: Props) {
       }}
       open={showModal}
     >
-      <SheetTrigger>
-        <HiPencil className="h-6 w-6 text-yellow-600 hover:text-yellow-400/50 active:translate-y-1" />
+      <SheetTrigger
+        className={`${
+          isButton
+            ? "flex-1 bg-base-100 border border-primary text-primary  rounded-xl hover:bg-primary hover:text-base-100 active:translate-y-1"
+            : ""
+        }`}
+      >
+        {isButton ? (
+          "Change Task"
+        ) : (
+          <HiPencil className="h-6 w-6 text-yellow-600 hover:text-yellow-400/50 active:translate-y-1" />
+        )}
       </SheetTrigger>
       <SheetContent className="bg-base-100 overflow-y-scroll">
         <SheetHeader>

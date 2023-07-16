@@ -6,6 +6,8 @@ import NavBar from "./NavBar";
 import prismaClient from "@/lib/prisma/prisma";
 import Comments from "@/components/taskid/Comments";
 import { InputForm } from "@/components/taskid/Input";
+import FinishTask from "@/components/taskid/FinishTask";
+import EditTaskModal from "@/components/teamsID/EditTaskModal";
 
 type Props = {
   params: {
@@ -62,24 +64,8 @@ async function page({ params }: Props) {
             </div>
           </div>
           <div className="flex  gap-3 w-full">
-            <Button
-              disabled
-              className="flex-1 bg-base-100 border border-primary text-primary  rounded-xl hover:bg-primary hover:text-base-100 active:translate-y-1"
-            >
-              Finish Task
-            </Button>{" "}
-            <Button
-              disabled
-              className="flex-1 bg-base-100 border border-primary text-primary  rounded-xl hover:bg-primary hover:text-base-100 active:translate-y-1"
-            >
-              Change Task
-            </Button>{" "}
-            <Button
-              disabled
-              className="flex-1 bg-base-100 border border-primary text-primary  rounded-xl hover:bg-primary hover:text-base-100 active:translate-y-1"
-            >
-              Change Deadline
-            </Button>
+            <FinishTask taskid={taskdata.id} />
+            <EditTaskModal teamTask={taskdata} isButton={true} />
           </div>
         </div>
         <div className="flex flex-col flex-1 gap-8 items-center my-10">
