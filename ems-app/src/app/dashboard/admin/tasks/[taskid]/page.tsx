@@ -89,7 +89,7 @@ async function page({ params }: Props) {
           <div className="flex flex-1  gap-3  flex-col w-full  p-2 border border-primary rounded-xl">
             <Comments taskid={taskdata.id} teamid={taskdata.teamID} />
             <hr className="text-primary bg-primary border-primary" />
-            <InputForm />
+            <InputForm taskId={taskdata.id} />
           </div>
         </div>
       </div>

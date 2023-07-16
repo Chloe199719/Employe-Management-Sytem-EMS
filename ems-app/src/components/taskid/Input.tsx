@@ -15,28 +15,55 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { toast } from "@/components/ui/use-toast";
+import { toast, useToast } from "@/components/ui/use-toast";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+import { type } from "os";
 
 const FormSchema = z.object({
   message: z.string().min(2, {
     message: "Message must be at least 2 characters.",
   }),
 });
+export interface FormValues extends z.infer<typeof FormSchema> {
+  taskId: string;
+}
+type Props = {
+  taskId: string;
+};
 
-export function InputForm() {
+export function InputForm({ taskId }: Props) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: async (data: FormValues) => {
+      try {
+        const res = await axios.post("/api/admin/employee/create", data);
+        return res;
+      } catch (error) {
+        return error;
+      }
+    },
+    onSuccess: (e) => {
+      toast({
+        title: "Employee created",
+        description: "Employee created successfully",
+      });
 
+      queryClient.invalidateQueries(["taskComments"]);
+    },
+    onError: (e) => {
+      toast({
+        title: "Error",
+        description: "Something went wrong",
+      });
+    },
+  });
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+    mutation.mutate({ ...data, taskId });
   }
 
   return (
