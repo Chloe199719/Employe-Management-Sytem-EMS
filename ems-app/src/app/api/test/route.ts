@@ -1,23 +1,16 @@
+import prismaClient from "@/lib/prisma/prisma";
 import { NextRequest } from "next/server";
 import { Webhook } from "svix";
+const startDate = new Date("2023-01-01T00:00:00.000Z");
+const endDate = new Date("2023-12-31T23:59:59.999Z");
 
 export async function POST(req: NextRequest) {
-  const payload1 = await req.json();
-  const payload = payload1.toString();
-  req.headers;
-
-  const headers = req.headers;
-  console.log(headers);
-
-  const wh = new Webhook(process.env.SVIX_WEBHOOK_SECRET!);
-  // let msg;
-  // try {
-  //   msg = wh.verify(payload, headers);
-  // } catch (err) {
-  //   return new Response("POST");
-  // }
-
-  // // Do something with the message...
-
+  try {
+    const data = await prismaClient.teamTask.findMany({
+      where: {
+        OR: [{}],
+      },
+    });
+  } catch (error) {}
   return new Response("POST");
 }

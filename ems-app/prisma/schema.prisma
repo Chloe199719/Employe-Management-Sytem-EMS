@@ -53,7 +53,7 @@ model Employee {
   address     String?
   insurance   String?
   timekeeping timekeeping[]
-  task        task[]
+
   Schedule    Schedule[]
   Leave       Leave[]
   Vacation    Vacation[]
@@ -91,17 +91,6 @@ model timekeeping {
   timeOut    DateTime
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-}
-
-model task {
-  id         String   @id @default(uuid())
-  employee   Employee @relation(fields: [employeeID], references: [id])
-  employeeID String
-  date       DateTime
-  task       String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  deadline   DateTime
 }
 
 model TeamTask {

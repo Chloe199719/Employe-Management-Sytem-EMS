@@ -29,7 +29,7 @@ function EditTaskModal({ teamTask, isButton }: Props) {
       <SheetTrigger
         className={`${
           isButton
-            ? "flex-1 bg-base-100 border border-primary text-primary  rounded-xl hover:bg-primary hover:text-base-100 active:translate-y-1"
+            ? "flex-1 bg-base-100 border border-primary text-primary  rounded-xl hover:bg-primary hover:text-base-100 active:translate-y-1 py-2"
             : ""
         }`}
       >
