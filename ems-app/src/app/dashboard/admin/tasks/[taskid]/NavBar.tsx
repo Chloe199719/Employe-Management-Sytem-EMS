@@ -18,7 +18,13 @@ function NavBar({ task, deadline, taskissue }: Props) {
           {" "}
           <AiOutlineArrowLeft className="h-6 w-6" />
         </Link>
-        <Image src="/teamLogo.png" alt="Logo" width={64} height={64} />
+        <Image
+          className="rounded-full"
+          src="/teamLogo.png"
+          alt="Logo"
+          width={64}
+          height={64}
+        />
         <span className="text-primary font-bold">{task}</span>
       </div>
       <div className="flex gap-4 items-center">

@@ -35,12 +35,6 @@ function loading({}: Props) {
             >
               Change Task
             </Button>{" "}
-            <Button
-              disabled
-              className="flex-1 bg-base-100 border border-primary text-primary  rounded-xl hover:bg-primary hover:text-base-100 active:translate-y-1"
-            >
-              Change Deadline
-            </Button>
           </div>
         </div>
         <div className="flex flex-col flex-1 gap-8 items-center my-10">
