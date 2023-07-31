@@ -4,17 +4,19 @@ import Link from "next/link";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { BsFillTrash3Fill } from "react-icons/bs";
 import Image from "next/image";
+import DeleteButton from "@/components/taskid/DeleteButton";
 type Props = {
   task: string;
   deadline: Date;
   taskissue: Date;
+  taskid: string;
 };
 
-function NavBar({ task, deadline, taskissue }: Props) {
+function NavBar({ taskid, task, deadline, taskissue }: Props) {
   return (
     <div className="flex justify-between px-6">
       <div className="flex gap-4 items-center">
-        <Link href={"/dashboard/admin/teams"}>
+        <Link href={"/dashboard/admin/tasks"}>
           {" "}
           <AiOutlineArrowLeft className="h-6 w-6" />
         </Link>
@@ -37,9 +39,7 @@ function NavBar({ task, deadline, taskissue }: Props) {
             Deadline: {deadline.toLocaleDateString()}
           </span>
         </div>
-        <Button className="bg-error/20 text-error font-bold hover:bg-error hover:text-base-100 flex gap-3">
-          <BsFillTrash3Fill /> <span>Delete</span>
-        </Button>
+        <DeleteButton taskid={taskid} />
       </div>
     </div>
   );

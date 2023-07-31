@@ -55,8 +55,6 @@ model Employee {
   timekeeping timekeeping[]
 
   Schedule    Schedule[]
-  Leave       Leave[]
-  Vacation    Vacation[]
   Documents   Documents[]
   Training    Training[]
   PaySlip     PaySlip[]
@@ -83,14 +81,13 @@ model Teams {
 }
 
 model timekeeping {
-  id         String   @id @default(uuid())
-  employee   Employee @relation(fields: [employeeID], references: [id])
+  id         String    @id @default(uuid())
+  employee   Employee  @relation(fields: [employeeID], references: [id])
   employeeID String
-  date       DateTime
   timeIn     DateTime
-  timeOut    DateTime
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  timeOut    DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 }
 
 model TeamTask {
@@ -126,28 +123,6 @@ model Schedule {
   timeOut    DateTime
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-}
-
-model Leave {
-  id         String   @id @default(uuid())
-  employee   Employee @relation(fields: [employeeID], references: [id])
-  employeeID String
-  date       DateTime
-  reason     String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  approved   Boolean  @default(false)
-}
-
-model Vacation {
-  id         String   @id @default(uuid())
-  employee   Employee @relation(fields: [employeeID], references: [id])
-  employeeID String
-  startDate  DateTime
-  endDate    DateTime
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  approved   Boolean  @default(false)
 }
 
 model Documents {
@@ -211,6 +186,7 @@ model Request {
   employee   Employee    @relation(fields: [employeeID], references: [id])
   employeeID String
   type       RequestType
+  approved   Boolean     @default(false)
   message    String
   date       DateTime
   createdAt  DateTime    @default(now())
@@ -219,6 +195,8 @@ model Request {
 
 enum RequestType {
   Documents
+  Vacation
+  Leave
   Training
   Raise
   Department
