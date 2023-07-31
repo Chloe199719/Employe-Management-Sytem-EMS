@@ -41,6 +41,7 @@ async function page({ params }: Props) {
         task={taskdata.task}
         deadline={taskdata.deadline}
         taskissue={taskdata.createdAt}
+        taskid={taskdata.id}
       />
 
       <div className="flex  px-12 gap-16  flex-1">
