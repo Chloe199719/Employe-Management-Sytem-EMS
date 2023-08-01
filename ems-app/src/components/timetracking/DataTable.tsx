@@ -21,6 +21,8 @@ import {
 
 import { DataTablePagination } from "./Pagination";
 import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -43,6 +45,7 @@ export function DataTable<TData, TValue>({
       sorting,
     },
   });
+
 
   return (
     <div>

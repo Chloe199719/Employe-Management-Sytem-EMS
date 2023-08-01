@@ -37,6 +37,7 @@ export async function GET(req: Request) {
           timeIn: true,
           timeOut: true,
           employeeID: true,
+          verified: true,
           employee: {
             select: {
               firstName: true,

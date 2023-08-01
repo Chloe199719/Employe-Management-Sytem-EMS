@@ -16,6 +16,11 @@ import {
 
 import Link from "next/link";
 import { TimeWith } from "./TableTime";
+import { AiOutlineCheck } from "react-icons/ai";
+import { BiErrorCircle } from "react-icons/bi";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+import { toast } from "../ui/use-toast";
 
 export const columns: ColumnDef<TimeWith>[] = [
   {
@@ -64,6 +69,54 @@ export const columns: ColumnDef<TimeWith>[] = [
       const formatted = `${row.original.employee.email}`;
 
       return <div className="">{formatted}</div>;
+    },
+  },
+  {
+    accessorKey: "Verified",
+    header: "verified",
+
+    cell: ({ row }) => {
+      const formatted = row.original.verified;
+      const client = useQueryClient();
+      const mutation = useMutation({
+        mutationFn: async (id: string) => {
+          try {
+            const res = await axios.put("/api/admin/timetracking/verify", {
+              id: id,
+            });
+            return res.data;
+          } catch (error) {
+            return error;
+          }
+        },
+        onSuccess: () => {
+          toast({
+            title: "Success",
+            description: "Time has been verified",
+          });
+          client.invalidateQueries(["timetracking"]);
+        },
+        onError: (error) => {
+          toast({
+            title: "Error",
+            description: "Something went wrong",
+          });
+        },
+      });
+      return (
+        <div className="pl-2">
+          {formatted ? (
+            <AiOutlineCheck className="w-6 h-6 text-green-500" />
+          ) : (
+            <BiErrorCircle
+              onClick={() => {
+                mutation.mutate(row.original.id);
+              }}
+              className="w-6 h-6 hover:w-7 hover:h-7 text-red-500"
+            />
+          )}
+        </div>
+      );
     },
   },
 

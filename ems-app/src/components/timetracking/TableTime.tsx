@@ -13,6 +13,7 @@ export const timeWith = Prisma.validator<Prisma.timekeepingArgs>()({
     timeIn: true,
     timeOut: true,
     employeeID: true,
+    verified: true,
     employee: {
       select: {
         firstName: true,

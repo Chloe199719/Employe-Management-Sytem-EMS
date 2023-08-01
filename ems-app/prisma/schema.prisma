@@ -86,6 +86,7 @@ model timekeeping {
   employeeID String
   timeIn     DateTime
   timeOut    DateTime?
+  verified   Boolean   @default(false)
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
 }
