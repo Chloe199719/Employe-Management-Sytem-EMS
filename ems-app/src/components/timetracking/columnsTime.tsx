@@ -73,7 +73,7 @@ export const columns: ColumnDef<TimeWith>[] = [
   },
   {
     accessorKey: "Verified",
-    header: "verified",
+    header: "Verified",
 
     cell: ({ row }) => {
       const formatted = row.original.verified;

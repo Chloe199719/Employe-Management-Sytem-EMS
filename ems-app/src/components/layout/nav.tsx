@@ -1,9 +1,12 @@
 import Image from "next/image";
 import ThemeSwitch from "./ThemeSwitch";
-import { UserButton, auth, currentUser } from "@clerk/nextjs";
-import getRole from "@/lib/frontend/getRole";
-import AdminList from "./AdminList";
+import { UserButton, currentUser } from "@clerk/nextjs";
 
+import AdminList from "./AdminList";
+import Link from "next/link";
+
+import { IoDocumentSharp } from "react-icons/io5";
+import { BiMessageAdd } from "react-icons/bi";
 type Props = {};
 async function Nav({}: Props) {
   const user = await currentUser();
@@ -26,6 +29,25 @@ async function Nav({}: Props) {
           </li>
           <hr className="my-1 border-primary" />
           <AdminList />
+          <hr className="my-1 border-primary" />
+          <li className="tooltip tooltip-primary w-full" data-tip={`Documents`}>
+            <Link
+              href="/dashboard/admin/documents"
+              className="flex justify-center md:justify-start w-full"
+            >
+              <IoDocumentSharp className="h-5 w-5" />
+              <span className="hidden md:block">Documents</span>
+            </Link>
+          </li>
+          <li className="tooltip tooltip-primary w-full" data-tip={`Requests`}>
+            <Link
+              href="/dashboard/admin/request"
+              className="flex justify-center md:justify-start w-full"
+            >
+              <BiMessageAdd className="h-5 w-5" />
+              <span className="hidden md:block">Requests</span>
+            </Link>
+          </li>
         </div>
         <div>
           <li className="">
