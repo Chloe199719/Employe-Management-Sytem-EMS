@@ -41,7 +41,7 @@ async function Nav({}: Props) {
           </li>
           <li className="tooltip tooltip-primary w-full" data-tip={`Requests`}>
             <Link
-              href="/dashboard/admin/request"
+              href="/dashboard/admin/requests"
               className="flex justify-center md:justify-start w-full"
             >
               <BiMessageAdd className="h-5 w-5" />

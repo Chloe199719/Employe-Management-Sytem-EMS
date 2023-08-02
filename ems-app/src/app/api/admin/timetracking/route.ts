@@ -63,6 +63,7 @@ export async function GET(req: Request) {
 
           timeIn: true,
           timeOut: true,
+          verified: true,
           employeeID: true,
           employee: {
             select: {

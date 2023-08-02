@@ -202,6 +202,7 @@ enum RequestType {
   Raise
   Department
   Other
+  Sick
 }
 
 model Message {

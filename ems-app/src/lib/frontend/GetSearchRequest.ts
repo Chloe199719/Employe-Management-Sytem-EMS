@@ -1,14 +1,14 @@
 import axios from "axios";
 
-async function fetchRequests(searchTerm?: string) {
+async function fetchTrackingTime(searchTerm?: string) {
   try {
     if (!searchTerm) {
-      const data = await axios.get(`/api/admin/requests/`);
+      const data = await axios.get(`/api/admin/timetracking/`);
 
       return data.data;
     } else {
       const data = await axios.get(
-        `/api/admin/requests/?term=${searchTerm}`
+        `/api/admin/timetracking/?term=${searchTerm}`
       );
       return data.data;
     }
@@ -16,4 +16,4 @@ async function fetchRequests(searchTerm?: string) {
     return Promise.reject(error);
   }
 }
-export default fetchRequests;
+export default fetchTrackingTime;
